@@ -155,58 +155,59 @@
       listingsEl.innerHTML = visibles.map(carteAnnonce).join('');
     }
 
-    function carteAnnonce(a) {
-      var media = a.photo
-        ? '<div class="listing__media"><img src="' + escapeHtml(a.photo) + '" alt="' + escapeHtml(a.titre) + ' à ' + escapeHtml(a.commune || '') + '" loading="lazy"></div>'
-        : '<div class="listing__media listing__media--empty"><span>' + escapeHtml(a.type || 'Bien') + '</span></div>';
+  }
 
-      var flag = '';
-      if (a.statut && a.statut !== 'Disponible') {
-        flag = '<span class="listing__flag' + (a.statut === 'Vendu' ? ' listing__flag--sold' : '') + '">' + escapeHtml(a.statut) + '</span>';
-      }
+  function carteAnnonce(a) {
+    var media = a.photo
+      ? '<div class="listing__media"><img src="' + escapeHtml(a.photo) + '" alt="' + escapeHtml(a.titre) + ' à ' + escapeHtml(a.commune || '') + '" loading="lazy"></div>'
+      : '<div class="listing__media listing__media--empty"><span>' + escapeHtml(a.type || 'Bien') + '</span></div>';
 
-      var specs = [];
-      if (a.surface) { specs.push(a.surface + ' m² habitables'); }
-      if (a.terrain) { specs.push('terrain ' + formatNombre(a.terrain) + ' m²'); }
-      if (a.pieces) { specs.push(a.pieces + ' pièces'); }
-      if (a.chambres) { specs.push(a.chambres + (a.chambres > 1 ? ' chambres' : ' chambre')); }
-      var specsHtml = specs.length
-        ? '<ul class="listing__specs">' + specs.map(function (s) { return '<li>' + escapeHtml(s) + '</li>'; }).join('') + '</ul>'
-        : '';
-
-      var prix = a.prix
-        ? formatNombre(a.prix) + ' €'
-        : 'Prix : nous consulter';
-
-      var dpe = (a.dpe || a.ges)
-        ? '<div class="dpe"><span>DPE</span><b data-c="' + escapeHtml(a.dpe || 'NS') + '">' + escapeHtml(a.dpe || 'NS') + '</b>' +
-          '<span style="margin-left:.5rem">GES</span><b data-c="' + escapeHtml(a.ges || 'NS') + '">' + escapeHtml(a.ges || 'NS') + '</b></div>'
-        : '';
-
-      var copro = a.copropriete
-        ? '<p style="font-size:.82rem;color:var(--ink-faint)">' + escapeHtml(a.copropriete) + '</p>'
-        : '';
-
-      var sujet = encodeURIComponent('Bien réf. ' + (a.ref || '') + ' — ' + a.titre);
-      var action = a.statut === 'Vendu'
-        ? '<span class="listing__ref" style="margin:0">Vendu par l’office</span>'
-        : '<a class="listing__link" href="mailto:marine.letreut@notaires.fr?subject=' + sujet + '">Demander le dossier</a>';
-
-      return '<article class="listing">' +
-        '<div class="listing__media-wrap" style="position:relative">' + media + flag + '</div>' +
-        '<div class="listing__body">' +
-          '<p class="listing__ref">' + escapeHtml([a.ref ? 'Réf. ' + a.ref : '', a.commune].filter(Boolean).join(' · ')) + '</p>' +
-          '<h3>' + escapeHtml(a.titre) + '</h3>' +
-          '<p class="listing__price">' + escapeHtml(prix) +
-            (a.honoraires ? '<small>' + escapeHtml(a.honoraires) + '</small>' : '') +
-          '</p>' +
-          specsHtml +
-          (a.description ? '<p>' + escapeHtml(a.description) + '</p>' : '') +
-          copro +
-          '<div class="listing__foot">' + dpe + action + '</div>' +
-        '</div>' +
-      '</article>';
+    var flag = '';
+    if (a.statut && a.statut !== 'Disponible') {
+      flag = '<span class="listing__flag' + (a.statut === 'Vendu' ? ' listing__flag--sold' : '') + '">' + escapeHtml(a.statut) + '</span>';
     }
+
+    var specs = [];
+    if (a.surface) { specs.push(a.surface + ' m² habitables'); }
+    if (a.terrain) { specs.push('terrain ' + formatNombre(a.terrain) + ' m²'); }
+    if (a.pieces) { specs.push(a.pieces + ' pièces'); }
+    if (a.chambres) { specs.push(a.chambres + (a.chambres > 1 ? ' chambres' : ' chambre')); }
+    var specsHtml = specs.length
+      ? '<ul class="listing__specs">' + specs.map(function (s) { return '<li>' + escapeHtml(s) + '</li>'; }).join('') + '</ul>'
+      : '';
+
+    var prix = a.prix
+      ? formatNombre(a.prix) + ' €'
+      : 'Prix : nous consulter';
+
+    var dpe = (a.dpe || a.ges)
+      ? '<div class="dpe"><span>DPE</span><b data-c="' + escapeHtml(a.dpe || 'NS') + '">' + escapeHtml(a.dpe || 'NS') + '</b>' +
+        '<span style="margin-left:.5rem">GES</span><b data-c="' + escapeHtml(a.ges || 'NS') + '">' + escapeHtml(a.ges || 'NS') + '</b></div>'
+      : '';
+
+    var copro = a.copropriete
+      ? '<p style="font-size:.82rem;color:var(--ink-faint)">' + escapeHtml(a.copropriete) + '</p>'
+      : '';
+
+    var sujet = encodeURIComponent('Bien réf. ' + (a.ref || '') + ' — ' + a.titre);
+    var action = a.statut === 'Vendu'
+      ? '<span class="listing__ref" style="margin:0">Vendu par l’office</span>'
+      : '<a class="listing__link" href="mailto:marine.letreut@notaires.fr?subject=' + sujet + '">Demander le dossier</a>';
+
+    return '<article class="listing">' +
+      '<div class="listing__media-wrap" style="position:relative">' + media + flag + '</div>' +
+      '<div class="listing__body">' +
+        '<p class="listing__ref">' + escapeHtml([a.ref ? 'Réf. ' + a.ref : '', a.commune].filter(Boolean).join(' · ')) + '</p>' +
+        '<h3>' + escapeHtml(a.titre) + '</h3>' +
+        '<p class="listing__price">' + escapeHtml(prix) +
+          (a.honoraires ? '<small>' + escapeHtml(a.honoraires) + '</small>' : '') +
+        '</p>' +
+        specsHtml +
+        (a.description ? '<p>' + escapeHtml(a.description) + '</p>' : '') +
+        copro +
+        '<div class="listing__foot">' + dpe + action + '</div>' +
+      '</div>' +
+    '</article>';
   }
 
   /* ---- Formulaire de contact (sans serveur : ouverture du client de messagerie) ---- */
@@ -256,4 +257,6 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
   }
+  /* ---- Rendu partage avec l'espace de gestion ---- */
+  window.OfficeUI = { carteAnnonce: carteAnnonce };
 })();

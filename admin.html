@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Espace de gestion &mdash; Office notarial de Combrit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="admin-header">
+  <div class="wrap admin-header__inner">
+    <a class="brand" href="index.html">
+      <strong>Office notarial de Combrit</strong>
+      <span>Espace de gestion</span>
+    </a>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+      <a class="btn btn--ghost btn--small" href="annonces.html" target="_blank" rel="noopener">Voir le site</a>
+      <button class="btn btn--small" type="button" data-export>T&eacute;l&eacute;charger le fichier &agrave; publier</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" style="padding-block:2.5rem 5rem">
+
+  <div class="notice" data-draft hidden>
+    <strong>Modifications non publi&eacute;es.</strong>
+    <span data-draft-date></span>
+    Elles sont enregistr&eacute;es dans ce navigateur uniquement&nbsp;: le site en ligne ne changera qu&rsquo;apr&egrave;s t&eacute;l&eacute;chargement du fichier et envoi &agrave; l&rsquo;h&eacute;bergeur.
+    <button class="btn btn--ghost btn--small" type="button" data-reset style="margin-top:.7rem">Abandonner et revenir au site publi&eacute;</button>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" type="button" role="tab" data-tab="annonces" aria-selected="true">Biens &agrave; vendre</button>
+    <button class="tab" type="button" role="tab" data-tab="offres" aria-selected="false">Offres d&rsquo;emploi</button>
+    <button class="tab" type="button" role="tab" data-tab="aide" aria-selected="false">Mode d&rsquo;emploi</button>
+  </div>
+
+  <div data-pane="annonces">
+    <div class="admin-grid">
+      <div>
+        <div class="admin-list">
+          <div class="admin-list__head">
+            <h2>Les biens</h2>
+            <button class="btn btn--small" type="button" data-new="annonces">Ajouter</button>
+          </div>
+          <div data-list="annonces"></div>
+        </div>
+        <p class="hint" style="margin-top:1rem">L&rsquo;ordre d&rsquo;affichage sur le site est automatique&nbsp;: disponibles, puis sous compromis, puis vendus.</p>
+      </div>
+      <div>
+        <div class="admin-panel" data-form="annonces"></div>
+        <div class="admin-preview" style="margin-top:1.5rem" hidden data-preview>
+          <p class="eyebrow" style="margin-bottom:1.2rem">Aper&ccedil;u de la fiche</p>
+          <div class="listings" data-preview-target></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-pane="offres" hidden>
+    <div class="admin-grid">
+      <div>
+        <div class="admin-list">
+          <div class="admin-list__head">
+            <h2>Les postes</h2>
+            <button class="btn btn--small" type="button" data-new="offres">Ajouter</button>
+          </div>
+          <div data-list="offres"></div>
+        </div>
+      </div>
+      <div>
+        <div class="admin-panel" data-form="offres"></div>
+      </div>
+    </div>
+  </div>
+
+  <div data-pane="aide" hidden>
+    <div class="narrow">
+      <h2>Comment &ccedil;a marche</h2>
+      <p>Cet espace sert &agrave; pr&eacute;parer le contenu du site sans &eacute;crire une ligne de code. Il fonctionne enti&egrave;rement dans votre navigateur&nbsp;: rien n&rsquo;est envoy&eacute; sur internet tant que vous ne publiez pas.</p>
+      <ol class="steps">
+        <li><strong>Saisir</strong>Ajoutez ou modifiez un bien, puis enregistrez. Vos modifications restent m&eacute;moris&eacute;es dans ce navigateur, m&ecirc;me si vous fermez l&rsquo;onglet.</li>
+        <li><strong>T&eacute;l&eacute;charger</strong>Cliquez sur &laquo;&nbsp;T&eacute;l&eacute;charger le fichier &agrave; publier&nbsp;&raquo;. Vous obtenez un fichier nomm&eacute; <code>annonces.js</code> (ou <code>offres.js</code>).</li>
+        <li><strong>Publier</strong>Envoyez ce fichier &agrave; votre h&eacute;bergeur, dans le dossier <code>assets/data/</code> du site, en rempla&ccedil;ant l&rsquo;ancien. Le site est &agrave; jour imm&eacute;diatement.</li>
+      </ol>
+
+      <h2 style="margin-top:2.5rem">Les photos</h2>
+      <p>Envoyez d&rsquo;abord vos photos dans le dossier <code>assets/img/</code> du site, puis indiquez leur chemin dans le champ pr&eacute;vu, par exemple <code>assets/img/2026-021.jpg</code>. Un format paysage d&rsquo;environ 1200 pixels de large convient. Sans photo, le site affiche une vignette neutre&nbsp;: l&rsquo;annonce reste pr&eacute;sentable.</p>
+
+      <h2 style="margin-top:2.5rem">Ce que la loi impose</h2>
+      <p>Une annonce immobili&egrave;re doit indiquer le prix honoraires inclus et pr&eacute;ciser qui les supporte, afficher les classes DPE et GES du bien, et mentionner pour un lot de copropri&eacute;t&eacute; le nombre de lots, les charges pr&eacute;visionnelles annuelles et l&rsquo;existence &eacute;ventuelle d&rsquo;une proc&eacute;dure. Les champs correspondants sont pr&eacute;vus dans le formulaire&nbsp;: les renseigner suffit.</p>
+
+      <h2 style="margin-top:2.5rem">Bon &agrave; savoir</h2>
+      <p>Cette page n&rsquo;est pas prot&eacute;g&eacute;e par un mot de passe et n&rsquo;en a pas besoin&nbsp;: elle ne peut rien modifier sur le site en ligne, elle se contente de fabriquer un fichier. Tant que ce fichier n&rsquo;est pas envoy&eacute; &agrave; l&rsquo;h&eacute;bergeur, le site public reste inchang&eacute;. Si vous souhaitez plus tard modifier le site directement depuis internet, sans manipulation de fichier, dites-le&nbsp;: cela suppose de passer par un h&eacute;bergement de type Netlify avec une interface d&rsquo;administration connect&eacute;e.</p>
+    </div>
+  </div>
+
+</main>
+
+<script src="assets/data/annonces.js"></script>
+<script src="assets/data/offres.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

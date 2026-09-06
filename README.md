@@ -10,7 +10,9 @@ annonces.html         Biens à vendre — la négociation notariale
 offres.html           Recrutement — les offres d'emploi publiées
 contact.html          Coordonnées, horaires, accès et formulaire
 mentions-legales.html Éditeur, données personnelles, médiation
+admin.html            Espace de gestion — saisie des biens et des offres
 assets/css/style.css  Feuille de styles unique
+assets/js/admin.js    L'espace de gestion
 assets/js/main.js     Menu mobile, accordéon, annonces et filtres, offres, formulaire
 assets/data/annonces.js Les biens à vendre — le fichier à modifier pour publier un bien
 assets/data/offres.js   Les offres d'emploi
@@ -26,9 +28,37 @@ python3 -m http.server 8000
 # puis http://localhost:8000
 ```
 
+## L'espace de gestion (`admin.html`)
+
+Pour éviter d'avoir à ouvrir un fichier de code, `admin.html` propose un
+formulaire : liste des biens à gauche, saisie à droite, aperçu de la fiche telle
+qu'elle apparaîtra sur le site. Un second onglet gère les offres d'emploi.
+
+Le fonctionnement est volontairement simple et sans serveur :
+
+1. **Saisir.** Les modifications sont mémorisées dans le navigateur
+   (`localStorage`) — on peut fermer l'onglet et reprendre plus tard. Un bandeau
+   signale les modifications non publiées.
+2. **Télécharger.** Le bouton produit un fichier `annonces.js` (ou `offres.js`)
+   complet et correctement formaté.
+3. **Publier.** Déposer ce fichier dans `assets/data/` chez l'hébergeur, en
+   remplacement de l'ancien. Le site est à jour immédiatement.
+
+Cette page ne peut rien modifier en ligne par elle-même : elle fabrique un
+fichier, rien de plus. C'est pourquoi elle n'a pas de mot de passe — il n'y
+aurait rien à protéger. Elle porte un `noindex` et n'est pas dans la navigation
+principale (seulement un lien discret en pied de page, à retirer si besoin).
+
+Pour une administration en ligne réelle (connexion, modification depuis le
+téléphone, publication automatique), il faut passer par un hébergement Git —
+Netlify ou Cloudflare Pages avec Decap CMS, par exemple. Le site est déjà
+structuré pour : les contenus sont isolés dans `assets/data/`.
+
 ## Publier un bien à vendre
 
-Tout se passe dans `assets/data/annonces.js`. Ajouter un bloc dans la liste :
+Le plus simple est de passer par l'espace de gestion ci-dessus. Pour une
+modification directe du fichier `assets/data/annonces.js`, ajouter un bloc dans
+la liste :
 
 ```js
 {
@@ -61,7 +91,7 @@ prévues par les champs ci-dessus et rappelées en bas de la page `annonces.html
 
 ## Publier une offre d'emploi
 
-Tout se passe dans `assets/data/offres.js`. Ajouter un bloc dans la liste :
+Même principe, dans `assets/data/offres.js` (ou via l'espace de gestion) :
 
 ```js
 {
