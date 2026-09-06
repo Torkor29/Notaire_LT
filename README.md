@@ -6,12 +6,14 @@ dépendance à installer. Quatre pages publiques et une page de mentions légale
 ```
 index.html            L'office : présentation, méthode, déroulé d'un dossier
 actes.html            Les domaines d'intervention et les actes reçus
-offres.html           Recrutement — les offres publiées
+annonces.html         Biens à vendre — la négociation notariale
+offres.html           Recrutement — les offres d'emploi publiées
 contact.html          Coordonnées, horaires, accès et formulaire
 mentions-legales.html Éditeur, données personnelles, médiation
 assets/css/style.css  Feuille de styles unique
-assets/js/main.js     Menu mobile, accordéon, affichage des offres, formulaire
-assets/data/offres.js Les offres d'emploi — le seul fichier à modifier pour recruter
+assets/js/main.js     Menu mobile, accordéon, annonces et filtres, offres, formulaire
+assets/data/annonces.js Les biens à vendre — le fichier à modifier pour publier un bien
+assets/data/offres.js   Les offres d'emploi
 ```
 
 ## Consulter le site en local
@@ -23,6 +25,39 @@ en ligne :
 python3 -m http.server 8000
 # puis http://localhost:8000
 ```
+
+## Publier un bien à vendre
+
+Tout se passe dans `assets/data/annonces.js`. Ajouter un bloc dans la liste :
+
+```js
+{
+  ref: "2026-025",
+  titre: "Maison de bourg rénovée",
+  commune: "Combrit",
+  type: "Maison",              // Maison | Appartement | Terrain | Local | Autre
+  statut: "Disponible",        // Disponible | Sous compromis | Vendu
+  prix: 295000,
+  honoraires: "Honoraires de négociation inclus, à la charge de l'acquéreur : 4,5 % TTC du prix hors honoraires",
+  surface: 110, terrain: 450, pieces: 5, chambres: 3,
+  dpe: "D", ges: "B",          // "NS" si le bien n'est pas soumis au DPE
+  description: "Deux ou trois phrases de présentation.",
+  photo: "assets/img/2026-025.jpg",   // facultatif
+  date: "2026-10-01",
+  visible: true
+}
+```
+
+Les biens disponibles s'affichent en premier, puis ceux sous compromis, puis
+les biens vendus (utiles pour montrer l'activité de l'office — passer
+`visible: false` pour les retirer). Les filtres par type et par commune se
+construisent automatiquement à partir des données. Sans photo, une vignette
+neutre portant le type du bien est affichée : mettre les images dans
+`assets/img/`, au format paysage, redimensionnées à 1200 px de large environ.
+
+Les mentions obligatoires d'une annonce immobilière (prix honoraires inclus et
+répartition de la charge, classes DPE et GES, informations de copropriété) sont
+prévues par les champs ci-dessus et rappelées en bas de la page `annonces.html`.
 
 ## Publier une offre d'emploi
 
