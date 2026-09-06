@@ -11,13 +11,14 @@ offres.html           Recrutement — les offres d'emploi publiées
 contact.html          Coordonnées, horaires, accès et formulaire
 mentions-legales.html Éditeur, données personnelles, médiation
 admin/                Interface de gestion en ligne (Decap CMS)
-gestion-hors-ligne.html Même saisie, sans connexion, avec export du fichier
+content/annonces/     Une fiche JSON par bien — ce que l'interface écrit
+content/offres/       Une fiche JSON par offre d'emploi
+build.mjs             Regroupe les fiches dans assets/data/
 merci.html · 404.html Confirmation d'envoi et page d'erreur
 assets/css/style.css  Feuille de styles unique
-assets/js/admin.js    La saisie hors ligne
 assets/js/main.js     Menu mobile, accordéon, annonces et filtres, offres, formulaire
-assets/data/annonces.json Les biens à vendre
-assets/data/offres.json   Les offres d'emploi
+assets/data/*.json    Fichiers regroupés, lus par le site (générés)
+assets/vendor/        Bibliothèques de l'interface, servies par le site
 netlify.toml · _headers · _redirects   Configuration d'hébergement
 robots.txt · sitemap.xml · favicon.svg Référencement
 ```
@@ -28,29 +29,55 @@ Les contenus sont chargés depuis des fichiers JSON : il faut un petit serveur
 web, un double-clic sur `index.html` ne suffit plus.
 
 ```sh
-python3 -m http.server 8000
-# puis http://localhost:8000
+npm run serve   # puis http://localhost:8000
 ```
 
-## Modifier le contenu
+## Modifier le contenu : `/admin/`
 
-**En ligne, au quotidien : `/admin/`.** Interface Decap CMS — connexion par
-courriel et mot de passe, saisie par formulaire, publication en un clic. Chaque
-enregistrement écrit dans le dépôt Git et déclenche une nouvelle mise en ligne ;
-l'historique est conservé et toute erreur est réversible. L'activation des
-comptes est décrite dans `DEPLOIEMENT.md`.
+Interface Decap CMS, en français. Connexion par courriel et mot de passe (pas de
+compte GitHub à créer), puis pour chaque collection — biens à vendre, offres
+d'emploi :
 
-**Hors connexion, ou en secours : `gestion-hors-ligne.html`.** Même saisie, avec
-aperçu de la fiche telle qu'elle apparaîtra. Les modifications restent dans le
-navigateur, puis le bouton produit un `annonces.json` à déposer dans
-`assets/data/` chez l'hébergeur.
+- **Ajouter** : bouton « Créer une entrée » en haut de la liste ;
+- **Modifier** : cliquer sur une fiche, corriger, publier ;
+- **Supprimer** : bouton « Supprimer l'entrée » dans la fiche ;
+- trier et grouper la liste par statut, commune, prix ou date ;
+- envoyer les photos directement, sans FTP.
 
-**À la main :** les deux fichiers de `assets/data/` sont du JSON lisible.
+Chaque enregistrement écrit dans le dépôt Git et déclenche une mise en ligne :
+l'historique est conservé et toute erreur est réversible.
+
+### Comment c'est organisé
+
+L'interface écrit **une fiche par fichier** dans `content/annonces/` et
+`content/offres/` — c'est ce qui permet l'ajout et la suppression fiche par
+fiche. Avant chaque mise en ligne, `build.mjs` regroupe ces fiches dans
+`assets/data/annonces.json` et `assets/data/offres.json`, les deux seuls
+fichiers que le site public charge. C'est automatique côté hébergeur
+(`netlify.toml`) ; en local :
+
+```sh
+npm run build
+```
+
+Les fichiers regroupés sont versionnés : le site reste consultable même sans
+lancer la construction.
+
+### Essayer l'interface en local
+
+```sh
+npm run cms      # proxy de l'interface, dans un premier terminal
+npm run serve    # le site, dans un second
+# puis http://localhost:8000/admin/
+```
+
+Les modifications s'écrivent alors dans `content/` sur le disque, sans toucher
+au dépôt en ligne.
 
 ## Publier un bien à vendre
 
-Le plus simple est de passer par `/admin/`. Structure d'un bien dans
-`assets/data/annonces.json` :
+Le plus simple est de passer par `/admin/`. Structure d'une fiche de
+`content/annonces/` :
 
 ```json
 {
@@ -75,8 +102,8 @@ Sous compromis ou Vendu. `dpe` et `ges` : de A à G, ou `NS` pour un bien non
 soumis au diagnostic.
 
 Les biens disponibles s'affichent en premier, puis ceux sous compromis, puis
-les biens vendus (utiles pour montrer l'activité de l'office — passer
-`visible: false` pour les retirer). Les filtres par type et par commune se
+les biens vendus (utiles pour montrer l'activité de l'office — décocher
+« afficher ce bien » pour les retirer sans les supprimer). Les filtres par type et par commune se
 construisent automatiquement à partir des données. Sans photo, une vignette
 neutre portant le type du bien est affichée : mettre les images dans
 `assets/img/`, au format paysage, redimensionnées à 1200 px de large environ.
@@ -87,7 +114,7 @@ prévues par les champs ci-dessus et rappelées en bas de la page `annonces.html
 
 ## Publier une offre d'emploi
 
-Même principe, dans `assets/data/offres.json` :
+Même principe, dans `content/offres/` :
 
 ```json
 {

@@ -1,19 +1,18 @@
 {
   "offres": [
     {
-      "titre": "Notaire assistant(e)",
-      "contrat": "CDI",
+      "titre": "Alternant(e) en licence professionnelle notariat",
+      "contrat": "Alternance",
       "lieu": "Combrit Sainte-Marine",
-      "temps": "Temps plein",
-      "date": "2026-09-01",
-      "resume": "Pour accompagner le développement de l'office, nous recherchons un notaire assistant capable de prendre en charge de manière autonome des dossiers d'immobilier et de famille, et d'intervenir en conseil auprès de notre clientèle de particuliers et de dirigeants.",
+      "temps": "Rythme universitaire",
+      "date": "2026-07-02",
+      "resume": "L'office accueille chaque année un alternant, encadré par un référent, sur des missions réelles et progressives. Rentrée de septembre.",
       "missions": [
-        "Recevoir et conseiller la clientèle lors des rendez-vous",
-        "Rédiger les actes courants et complexes, de la promesse à la publication",
-        "Assurer le suivi des dossiers de succession et de transmission",
-        "Participer à l'encadrement des collaborateurs et des alternants"
+        "Constituer les dossiers et interroger les administrations",
+        "Rédiger les actes simples sous supervision",
+        "Assister aux rendez-vous clients et aux signatures"
       ],
-      "profil": "Diplôme supérieur du notariat ou diplôme de notaire, une première expérience en office appréciée.",
+      "profil": "Inscription en licence professionnelle des métiers du notariat ou en BTS notariat.",
       "visible": true
     },
     {
@@ -33,18 +32,19 @@
       "visible": true
     },
     {
-      "titre": "Alternant(e) en licence professionnelle notariat",
-      "contrat": "Alternance",
+      "titre": "Notaire assistant(e)",
+      "contrat": "CDI",
       "lieu": "Combrit Sainte-Marine",
-      "temps": "Rythme universitaire",
-      "date": "2026-07-02",
-      "resume": "L'office accueille chaque année un alternant, encadré par un référent, sur des missions réelles et progressives. Rentrée de septembre.",
+      "temps": "Temps plein",
+      "date": "2026-09-01",
+      "resume": "Pour accompagner le développement de l'office, nous recherchons un notaire assistant capable de prendre en charge de manière autonome des dossiers d'immobilier et de famille, et d'intervenir en conseil auprès de notre clientèle de particuliers et de dirigeants.",
       "missions": [
-        "Constituer les dossiers et interroger les administrations",
-        "Rédiger les actes simples sous supervision",
-        "Assister aux rendez-vous clients et aux signatures"
+        "Recevoir et conseiller la clientèle lors des rendez-vous",
+        "Rédiger les actes courants et complexes, de la promesse à la publication",
+        "Assurer le suivi des dossiers de succession et de transmission",
+        "Participer à l'encadrement des collaborateurs et des alternants"
       ],
-      "profil": "Inscription en licence professionnelle des métiers du notariat ou en BTS notariat.",
+      "profil": "Diplôme supérieur du notariat ou diplôme de notaire, une première expérience en office appréciée.",
       "visible": true
     }
   ]

@@ -10,8 +10,9 @@
 <!-- Interface d'administration (Decap CMS). Elle écrit directement dans le
      dépôt Git du site : chaque enregistrement déclenche une nouvelle mise en
      ligne. Voir DEPLOIEMENT.md pour l'activation des comptes. -->
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script src="https://unpkg.com/decap-cms@^3.8.0/dist/decap-cms.js"></script>
+<!-- Bibliothèques servies depuis le site : aucune dépendance à un CDN externe. -->
+<script src="/assets/vendor/netlify-identity-widget.js"></script>
+<script src="/assets/vendor/decap-cms.js"></script>
 <script>
   // Redirige vers la page d'accueil après une invitation par courriel.
   if (window.netlifyIdentity) {

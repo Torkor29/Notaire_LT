@@ -1,8 +1,9 @@
-# Configuration Netlify — site statique, aucune étape de construction.
+# Configuration Netlify — site statique.
 
 [build]
   publish = "."
-  command = ""
+  # Regroupe les fiches de content/ dans assets/data/ avant chaque mise en ligne.
+  command = "node build.mjs"
 
 [[headers]]
   for = "/*"

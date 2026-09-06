@@ -302,6 +302,4 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
   }
-  /* ---- Rendu partage avec l'espace de gestion ---- */
-  window.OfficeUI = { carteAnnonce: carteAnnonce };
 })();

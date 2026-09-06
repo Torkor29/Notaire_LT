@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
-Disallow: /gestion-hors-ligne.html
 
 Sitemap: https://www.notaire-combrit.fr/sitemap.xml

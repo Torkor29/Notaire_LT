@@ -1,0 +1,16 @@
+{
+  "titre": "Notaire assistant(e)",
+  "contrat": "CDI",
+  "lieu": "Combrit Sainte-Marine",
+  "temps": "Temps plein",
+  "date": "2026-09-01",
+  "resume": "Pour accompagner le développement de l'office, nous recherchons un notaire assistant capable de prendre en charge de manière autonome des dossiers d'immobilier et de famille, et d'intervenir en conseil auprès de notre clientèle de particuliers et de dirigeants.",
+  "missions": [
+    "Recevoir et conseiller la clientèle lors des rendez-vous",
+    "Rédiger les actes courants et complexes, de la promesse à la publication",
+    "Assurer le suivi des dossiers de succession et de transmission",
+    "Participer à l'encadrement des collaborateurs et des alternants"
+  ],
+  "profil": "Diplôme supérieur du notariat ou diplôme de notaire, une première expérience en office appréciée.",
+  "visible": true
+}

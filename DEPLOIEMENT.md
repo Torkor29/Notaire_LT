@@ -1,8 +1,9 @@
 # Mise en ligne du site
 
 Le site est entièrement statique : aucun serveur applicatif, aucune base de
-données. Les contenus modifiables (biens à vendre, offres d'emploi) sont deux
-fichiers JSON dans `assets/data/`, édités depuis l'interface de gestion.
+données. Les contenus modifiables (biens à vendre, offres d'emploi) sont des
+fiches JSON dans `content/`, éditées depuis l'interface de gestion `/admin/` et
+regroupées par `build.mjs` dans `assets/data/` à chaque mise en ligne.
 
 ---
 
@@ -15,8 +16,10 @@ formulaire de contact et le HTTPS, sans rien à administrer.
 
 1. Créer un compte sur netlify.com, puis **Add new site → Import an existing
    project** et connecter le dépôt GitHub `Torkor29/Notaire_LT`.
-2. Réglages de construction : **build command** vide, **publish directory** `.`
-   (`netlify.toml` les renseigne déjà, il n'y a normalement rien à saisir).
+2. Réglages de construction : **build command** `node build.mjs`,
+   **publish directory** `.` (`netlify.toml` les renseigne déjà, il n'y a
+   normalement rien à saisir). Aucune dépendance à installer : le script
+   n'utilise que Node, présent par défaut.
 3. Déployer. Le site est en ligne sur une adresse en `.netlify.app`.
 
 ### Nom de domaine
@@ -32,8 +35,15 @@ l'heure. Prévoir un domaine du type `notaire-combrit.fr`.
 ### Interface de gestion (`/admin/`)
 
 Elle repose sur Decap CMS : Me Le Treut se connecte avec son adresse courriel,
-saisit un bien, clique sur *Publier*, et le site se met à jour tout seul en une
-minute environ. Aucun fichier à manipuler, aucun compte GitHub nécessaire.
+puis gère ses deux listes — biens à vendre, offres d'emploi. Chaque liste offre
+« Créer une entrée », la modification d'une fiche existante et « Supprimer
+l'entrée », plus le tri et le regroupement par statut ou par commune. Les photos
+s'envoient depuis l'interface. Aucun fichier à manipuler, aucun compte GitHub
+nécessaire.
+
+L'interface écrit une fiche par fichier dans `content/` ; la construction
+regroupe le tout pour le site public. Le site est à jour une minute environ
+après la publication.
 
 Activation, une seule fois :
 
@@ -66,7 +76,8 @@ dossier publié : la racine). `_headers` et `_redirects` prennent le relais de
 
 - **Interface de gestion** : remplacer le bloc `backend` de `admin/config.yml`
   par la variante `github` documentée en commentaire dans le fichier. La
-  connexion se fait alors avec un compte GitHub ayant accès au dépôt.
+  connexion se fait alors avec un compte GitHub ayant accès au dépôt. Penser à
+  renseigner `node build.mjs` comme commande de construction.
 - **Formulaire** : Netlify Forms n'existe pas ailleurs. Utiliser un service
   externe (Formspree, Tally, Web3Forms) en changeant l'attribut `action` du
   formulaire, ou revenir au mode sans serveur décrit ci-dessous.
@@ -78,9 +89,11 @@ dossier publié : la racine). `_headers` et `_redirects` prennent le relais de
 Déposer l'ensemble des fichiers par FTP dans le dossier `www/`. Le site
 fonctionne, mais :
 
-- **L'interface `/admin/` ne fonctionne pas** (elle a besoin d'un dépôt Git).
-  Utiliser `gestion-hors-ligne.html` : saisie par formulaire, puis
-  téléchargement de `annonces.json` à redéposer par FTP dans `assets/data/`.
+- **L'interface `/admin/` ne fonctionne pas** : elle publie en écrivant dans un
+  dépôt Git, ce qu'un hébergement FTP ne fournit pas. Il faudrait alors modifier
+  les fiches de `content/`, lancer `node build.mjs`, et redéposer les fichiers
+  de `assets/data/` par FTP. C'est la raison principale de préférer Netlify ou
+  Cloudflare Pages : sans dépôt Git, il n'y a pas d'administration en ligne.
 - **Le formulaire de contact** doit être basculé en mode sans serveur :
   dans `contact.html`, remplacer la ligne `<form name="contact" …>` par
   `<form data-contact-fallback>` (le commentaire juste au-dessus le rappelle).

@@ -1,0 +1,10 @@
+{
+  "name": "office-notarial-combrit",
+  "private": true,
+  "description": "Site de l'office notarial de Combrit — Me Marine Le Treut",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "python3 -m http.server 8000",
+    "cms": "npx decap-server"
+  }
+}
