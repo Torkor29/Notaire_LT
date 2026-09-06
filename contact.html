@@ -9,10 +9,44 @@
 <meta property="og:description" content="Contacter l'office notarial de Me Marine Le Treut : 1 impasse Saint-Tudy, 29120 Combrit Sainte-Marine. Telephone, courriel, horaires et acces.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
+<link rel="canonical" href="https://www.notaire-combrit.fr/contact.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#2f4739">
+<meta property="og:url" content="https://www.notaire-combrit.fr/contact.html">
+<meta property="og:site_name" content="Office notarial de Combrit">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Notary",
+  "name": "Office notarial de Combrit — Me Marine Le Treut",
+  "description": "Office notarial de Me Marine Le Treut à Combrit Sainte-Marine : immobilier, famille, succession, entreprise, conseil patrimonial et négociation notariale.",
+  "url": "https://www.notaire-combrit.fr/",
+  "telephone": "+33279400212",
+  "email": "marine.letreut@notaires.fr",
+  "image": "https://www.notaire-combrit.fr/favicon.svg",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1 impasse Saint-Tudy",
+    "postalCode": "29120",
+    "addressLocality": "Combrit Sainte-Marine",
+    "addressRegion": "Bretagne",
+    "addressCountry": "FR"
+  },
+  "geo": { "@type": "GeoCoordinates", "latitude": 47.8910, "longitude": -4.1650 },
+  "areaServed": ["Combrit", "Sainte-Marine", "Pont-l'Abbé", "Bénodet", "Île-Tudy", "Loctudy", "Plomeur", "Quimper"],
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday"], "opens": "09:00", "closes": "12:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday"], "opens": "14:00", "closes": "18:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "09:00", "closes": "12:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "14:00", "closes": "17:00" }
+  ],
+  "priceRange": "Tarif national réglementé"
+}
+</script>
 </head>
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
@@ -94,7 +128,17 @@
       <h2>Votre demande</h2>
       <p style="color:var(--ink-soft)">Ce formulaire permet de nous exposer votre situation. Nous revenons vers vous sous deux jours ouvr&eacute;s. Merci de ne pas y faire figurer de document confidentiel&nbsp;: nous vous transmettrons un lien s&eacute;curis&eacute; pour cela.</p>
 
-      <form action="mailto:marine.letreut@notaires.fr" method="post" enctype="text/plain" data-contact-form>
+      <!-- Formulaire Netlify : les demandes arrivent dans le tableau de bord de
+           l'hebergeur et par notification courriel, sans serveur a maintenir.
+           Sur un hebergement sans service de formulaire, remplacer la ligne
+           ci-dessous par :
+           <form data-contact-fallback>
+           et le message sera prepare dans le logiciel de messagerie du visiteur. -->
+      <form name="contact" method="POST" action="/merci.html" data-netlify="true" netlify-honeypot="societe">
+        <input type="hidden" name="form-name" value="contact">
+        <p style="display:none">
+          <label>Ne pas remplir&nbsp;: <input name="societe"></label>
+        </p>
         <div class="field">
           <label for="nom">Nom et pr&eacute;nom</label>
           <input type="text" id="nom" name="nom" autocomplete="name" required>
@@ -171,7 +215,7 @@
           <li><a href="offres.html">Recrutement</a></li>
           <li><a href="contact.html">Contact &amp; acc&egrave;s</a></li>
           <li><a href="mentions-legales.html">Mentions l&eacute;gales</a></li>
-          <li><a href="admin.html">Gestion du site</a></li>
+          <li><a href="admin/">Gestion du site</a></li>
         </ul>
       </div>
     </div>

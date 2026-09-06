@@ -10,73 +10,69 @@ annonces.html         Biens à vendre — la négociation notariale
 offres.html           Recrutement — les offres d'emploi publiées
 contact.html          Coordonnées, horaires, accès et formulaire
 mentions-legales.html Éditeur, données personnelles, médiation
-admin.html            Espace de gestion — saisie des biens et des offres
+admin/                Interface de gestion en ligne (Decap CMS)
+gestion-hors-ligne.html Même saisie, sans connexion, avec export du fichier
+merci.html · 404.html Confirmation d'envoi et page d'erreur
 assets/css/style.css  Feuille de styles unique
-assets/js/admin.js    L'espace de gestion
+assets/js/admin.js    La saisie hors ligne
 assets/js/main.js     Menu mobile, accordéon, annonces et filtres, offres, formulaire
-assets/data/annonces.js Les biens à vendre — le fichier à modifier pour publier un bien
-assets/data/offres.js   Les offres d'emploi
+assets/data/annonces.json Les biens à vendre
+assets/data/offres.json   Les offres d'emploi
+netlify.toml · _headers · _redirects   Configuration d'hébergement
+robots.txt · sitemap.xml · favicon.svg Référencement
 ```
 
 ## Consulter le site en local
 
-Ouvrir `index.html` dans un navigateur suffit. Pour être au plus près du site
-en ligne :
+Les contenus sont chargés depuis des fichiers JSON : il faut un petit serveur
+web, un double-clic sur `index.html` ne suffit plus.
 
 ```sh
 python3 -m http.server 8000
 # puis http://localhost:8000
 ```
 
-## L'espace de gestion (`admin.html`)
+## Modifier le contenu
 
-Pour éviter d'avoir à ouvrir un fichier de code, `admin.html` propose un
-formulaire : liste des biens à gauche, saisie à droite, aperçu de la fiche telle
-qu'elle apparaîtra sur le site. Un second onglet gère les offres d'emploi.
+**En ligne, au quotidien : `/admin/`.** Interface Decap CMS — connexion par
+courriel et mot de passe, saisie par formulaire, publication en un clic. Chaque
+enregistrement écrit dans le dépôt Git et déclenche une nouvelle mise en ligne ;
+l'historique est conservé et toute erreur est réversible. L'activation des
+comptes est décrite dans `DEPLOIEMENT.md`.
 
-Le fonctionnement est volontairement simple et sans serveur :
+**Hors connexion, ou en secours : `gestion-hors-ligne.html`.** Même saisie, avec
+aperçu de la fiche telle qu'elle apparaîtra. Les modifications restent dans le
+navigateur, puis le bouton produit un `annonces.json` à déposer dans
+`assets/data/` chez l'hébergeur.
 
-1. **Saisir.** Les modifications sont mémorisées dans le navigateur
-   (`localStorage`) — on peut fermer l'onglet et reprendre plus tard. Un bandeau
-   signale les modifications non publiées.
-2. **Télécharger.** Le bouton produit un fichier `annonces.js` (ou `offres.js`)
-   complet et correctement formaté.
-3. **Publier.** Déposer ce fichier dans `assets/data/` chez l'hébergeur, en
-   remplacement de l'ancien. Le site est à jour immédiatement.
-
-Cette page ne peut rien modifier en ligne par elle-même : elle fabrique un
-fichier, rien de plus. C'est pourquoi elle n'a pas de mot de passe — il n'y
-aurait rien à protéger. Elle porte un `noindex` et n'est pas dans la navigation
-principale (seulement un lien discret en pied de page, à retirer si besoin).
-
-Pour une administration en ligne réelle (connexion, modification depuis le
-téléphone, publication automatique), il faut passer par un hébergement Git —
-Netlify ou Cloudflare Pages avec Decap CMS, par exemple. Le site est déjà
-structuré pour : les contenus sont isolés dans `assets/data/`.
+**À la main :** les deux fichiers de `assets/data/` sont du JSON lisible.
 
 ## Publier un bien à vendre
 
-Le plus simple est de passer par l'espace de gestion ci-dessus. Pour une
-modification directe du fichier `assets/data/annonces.js`, ajouter un bloc dans
-la liste :
+Le plus simple est de passer par `/admin/`. Structure d'un bien dans
+`assets/data/annonces.json` :
 
-```js
+```json
 {
-  ref: "2026-025",
-  titre: "Maison de bourg rénovée",
-  commune: "Combrit",
-  type: "Maison",              // Maison | Appartement | Terrain | Local | Autre
-  statut: "Disponible",        // Disponible | Sous compromis | Vendu
-  prix: 295000,
-  honoraires: "Honoraires de négociation inclus, à la charge de l'acquéreur : 4,5 % TTC du prix hors honoraires",
-  surface: 110, terrain: 450, pieces: 5, chambres: 3,
-  dpe: "D", ges: "B",          // "NS" si le bien n'est pas soumis au DPE
-  description: "Deux ou trois phrases de présentation.",
-  photo: "assets/img/2026-025.jpg",   // facultatif
-  date: "2026-10-01",
-  visible: true
+  "ref": "2026-025",
+  "titre": "Maison de bourg rénovée",
+  "commune": "Combrit",
+  "type": "Maison",
+  "statut": "Disponible",
+  "prix": 295000,
+  "honoraires": "Honoraires de négociation inclus, à la charge de l'acquéreur : 4,5 % TTC du prix hors honoraires",
+  "surface": 110, "terrain": 450, "pieces": 5, "chambres": 3,
+  "dpe": "D", "ges": "B",
+  "description": "Deux ou trois phrases de présentation.",
+  "photo": "assets/img/2026-025.jpg",
+  "date": "2026-10-01",
+  "visible": true
 }
 ```
+
+`type` : Maison, Appartement, Terrain, Local ou Autre. `statut` : Disponible,
+Sous compromis ou Vendu. `dpe` et `ges` : de A à G, ou `NS` pour un bien non
+soumis au diagnostic.
 
 Les biens disponibles s'affichent en premier, puis ceux sous compromis, puis
 les biens vendus (utiles pour montrer l'activité de l'office — passer
@@ -91,19 +87,19 @@ prévues par les champs ci-dessus et rappelées en bas de la page `annonces.html
 
 ## Publier une offre d'emploi
 
-Même principe, dans `assets/data/offres.js` (ou via l'espace de gestion) :
+Même principe, dans `assets/data/offres.json` :
 
-```js
+```json
 {
-  titre: "Formaliste",
-  contrat: "CDI",
-  lieu: "Combrit Sainte-Marine",
-  temps: "Temps plein",
-  date: "2026-10-01",
-  resume: "Une phrase ou deux de présentation du poste.",
-  missions: ["Première mission", "Deuxième mission"],
-  profil: "Le profil recherché.",
-  visible: true
+  "titre": "Formaliste",
+  "contrat": "CDI",
+  "lieu": "Combrit Sainte-Marine",
+  "temps": "Temps plein",
+  "date": "2026-10-01",
+  "resume": "Une phrase ou deux de présentation du poste.",
+  "missions": ["Première mission", "Deuxième mission"],
+  "profil": "Le profil recherché.",
+  "visible": true
 }
 ```
 
@@ -113,12 +109,18 @@ page affiche automatiquement une invitation aux candidatures spontanées.
 
 ## Formulaire de contact
 
-Le formulaire ouvre le logiciel de messagerie du visiteur avec un message
-pré-rempli : il fonctionne sans hébergement dynamique. Si l'office préfère
-recevoir les demandes par un service de formulaire (Formspree, Tally, ou un
-script PHP chez l'hébergeur), il suffit de remplacer l'attribut `action` du
-formulaire dans `contact.html` et de retirer le bloc `[data-contact-form]` de
-`assets/js/main.js`.
+Configuré pour Netlify Forms : les demandes arrivent dans le tableau de bord de
+l'hébergeur, avec notification par courriel, et le visiteur est redirigé vers
+`merci.html`. Un champ piège invisible filtre les robots. Sur un hébergement
+sans service de formulaire, remplacer la ligne `<form name="contact" …>` de
+`contact.html` par `<form data-contact-fallback>` : le message est alors préparé
+dans le logiciel de messagerie du visiteur.
+
+## Mise en ligne
+
+Voir **`DEPLOIEMENT.md`** : hébergement Netlify pas à pas, activation des
+comptes de l'interface de gestion, nom de domaine, et variantes Cloudflare
+Pages ou hébergement mutualisé classique.
 
 ## À compléter avant la mise en ligne
 
@@ -127,9 +129,3 @@ formulaire dans `contact.html` et de retirer le bloc `[data-contact-form]` de
 - Ajuster les coordonnées du marqueur de la carte dans `contact.html` si besoin
   (paramètres `bbox` et `marker` de l'iframe OpenStreetMap).
 - Ajouter, si souhaité, un portrait et une photo des locaux.
-
-## Mise en ligne
-
-Le site étant entièrement statique, il se déploie sur n'importe quel
-hébergement mutualisé (dépôt des fichiers par FTP) ou sur GitHub Pages,
-Netlify, Cloudflare Pages sans configuration particulière.

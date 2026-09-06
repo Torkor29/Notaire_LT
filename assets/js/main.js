@@ -31,7 +31,13 @@
   /* ---- Offres d'emploi ---- */
   var container = document.getElementById('offres');
   if (container) {
-    var offres = (window.OFFRES || []).filter(function (o) {
+    chargerDonnees('assets/data/offres.json', 'offres').then(afficherOffres, function () {
+      container.innerHTML = messageErreur('les offres d’emploi');
+    });
+  }
+
+  function afficherOffres(donnees) {
+    var offres = donnees.filter(function (o) {
       return o && o.visible !== false && o.titre;
     });
 
@@ -85,7 +91,13 @@
   /* ---- Annonces immobilières ---- */
   var listingsEl = document.getElementById('annonces');
   if (listingsEl) {
-    var biens = (window.ANNONCES || []).filter(function (a) {
+    chargerDonnees('assets/data/annonces.json', 'annonces').then(afficherAnnonces, function () {
+      listingsEl.innerHTML = messageErreur('les biens à vendre');
+    });
+  }
+
+  function afficherAnnonces(donnees) {
+    var biens = donnees.filter(function (a) {
       return a && a.visible !== false && a.titre;
     });
 
@@ -211,7 +223,7 @@
   }
 
   /* ---- Formulaire de contact (sans serveur : ouverture du client de messagerie) ---- */
-  var form = document.querySelector('[data-contact-form]');
+  var form = document.querySelector('[data-contact-fallback]');
   if (form) {
     form.addEventListener('submit', function (event) {
       if (!form.checkValidity()) { return; }
@@ -235,6 +247,39 @@
         + '?subject=' + encodeURIComponent('Demande via le site — ' + get('objet'))
         + '&body=' + encodeURIComponent(corps);
     });
+  }
+
+  function chargerDonnees(url, cle) {
+    if (window.fetch) {
+      return fetch(url, { cache: 'no-cache' }).then(function (r) {
+        if (!r.ok) { throw new Error(r.status); }
+        return r.json();
+      }).then(function (d) { return normaliser(d, cle); });
+    }
+    return new Promise(function (resolve, reject) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.onload = function () {
+        try { resolve(normaliser(JSON.parse(xhr.responseText), cle)); } catch (e) { reject(e); }
+      };
+      xhr.onerror = reject;
+      xhr.send();
+    });
+  }
+
+  /* Le fichier peut être une liste, ou un objet { "annonces": [...] } tel que
+     l'écrit l'interface de gestion. Les deux formes sont acceptées. */
+  function normaliser(donnees, cle) {
+    if (Array.isArray(donnees)) { return donnees; }
+    if (donnees && Array.isArray(donnees[cle])) { return donnees[cle]; }
+    return [];
+  }
+
+  function messageErreur(quoi) {
+    return '<div class="empty-state" style="grid-column:1/-1">' +
+      '<h3>Contenu momentanément indisponible</h3>' +
+      '<p>Impossible de charger ' + quoi + '. Merci de réessayer dans un instant, ou de nous joindre au ' +
+      '<a href="tel:+33279400212">02 79 40 02 12</a>.</p></div>';
   }
 
   function formatNombre(n) {

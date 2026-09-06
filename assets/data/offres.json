@@ -1,0 +1,51 @@
+{
+  "offres": [
+    {
+      "titre": "Notaire assistant(e)",
+      "contrat": "CDI",
+      "lieu": "Combrit Sainte-Marine",
+      "temps": "Temps plein",
+      "date": "2026-09-01",
+      "resume": "Pour accompagner le développement de l'office, nous recherchons un notaire assistant capable de prendre en charge de manière autonome des dossiers d'immobilier et de famille, et d'intervenir en conseil auprès de notre clientèle de particuliers et de dirigeants.",
+      "missions": [
+        "Recevoir et conseiller la clientèle lors des rendez-vous",
+        "Rédiger les actes courants et complexes, de la promesse à la publication",
+        "Assurer le suivi des dossiers de succession et de transmission",
+        "Participer à l'encadrement des collaborateurs et des alternants"
+      ],
+      "profil": "Diplôme supérieur du notariat ou diplôme de notaire, une première expérience en office appréciée.",
+      "visible": true
+    },
+    {
+      "titre": "Clerc rédacteur / Collaborateur(trice) immobilier",
+      "contrat": "CDI",
+      "lieu": "Combrit Sainte-Marine",
+      "temps": "Temps plein",
+      "date": "2026-08-18",
+      "resume": "Vous prenez en charge un portefeuille de dossiers de vente immobilière, de la réception des pièces jusqu'à la signature, en lien direct avec le notaire et la clientèle.",
+      "missions": [
+        "Ouvrir les dossiers et réunir les pièces d'urbanisme et d'état civil",
+        "Rédiger les avant-contrats et les actes de vente",
+        "Suivre les conditions suspensives et les financements",
+        "Préparer les décomptes et les formalités postérieures"
+      ],
+      "profil": "Licence professionnelle des métiers du notariat ou expérience équivalente de deux ans minimum.",
+      "visible": true
+    },
+    {
+      "titre": "Alternant(e) en licence professionnelle notariat",
+      "contrat": "Alternance",
+      "lieu": "Combrit Sainte-Marine",
+      "temps": "Rythme universitaire",
+      "date": "2026-07-02",
+      "resume": "L'office accueille chaque année un alternant, encadré par un référent, sur des missions réelles et progressives. Rentrée de septembre.",
+      "missions": [
+        "Constituer les dossiers et interroger les administrations",
+        "Rédiger les actes simples sous supervision",
+        "Assister aux rendez-vous clients et aux signatures"
+      ],
+      "profil": "Inscription en licence professionnelle des métiers du notariat ou en BTS notariat.",
+      "visible": true
+    }
+  ]
+}

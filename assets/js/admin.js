@@ -8,17 +8,8 @@
   var SCHEMAS = {
     annonces: {
       titreSingulier: 'bien',
-      fichier: 'annonces.js',
-      variable: 'ANNONCES',
-      entete: [
-        "/*",
-        " * ANNONCES IMMOBILIÈRES DE L'OFFICE (négociation notariale)",
-        " * --------------------------------------------------------",
-        " * Fichier généré depuis l'espace de gestion (admin.html).",
-        " * Il peut aussi être modifié à la main : un bloc { ... } par bien.",
-        " */",
-        ""
-      ].join('\n'),
+      fichier: 'annonces.json',
+      cle: 'annonces',
       champs: [
         { cle: 'titre', label: 'Intitulé du bien', type: 'text', large: true, requis: true, aide: 'Ex. : Maison de pêcheur, à deux pas du port' },
         { cle: 'ref', label: 'Référence du mandat', type: 'text' },
@@ -53,17 +44,8 @@
     },
     offres: {
       titreSingulier: 'poste',
-      fichier: 'offres.js',
-      variable: 'OFFRES',
-      entete: [
-        "/*",
-        " * OFFRES D'EMPLOI DE L'OFFICE",
-        " * ---------------------------",
-        " * Fichier généré depuis l'espace de gestion (admin.html).",
-        " * Il peut aussi être modifié à la main : un bloc { ... } par poste.",
-        " */",
-        ""
-      ].join('\n'),
+      fichier: 'offres.json',
+      cle: 'offres',
       champs: [
         { cle: 'titre', label: 'Intitulé du poste', type: 'text', large: true, requis: true },
         { cle: 'contrat', label: 'Contrat', type: 'select', options: ['CDI', 'CDD', 'Alternance', 'Stage', 'Autre'] },
@@ -87,7 +69,7 @@
     }
   };
 
-  var etat = charger();
+  var etat = { annonces: [], offres: [] };
   var selection = { annonces: 0, offres: 0 };
   var ongletActif = 'annonces';
 
@@ -268,37 +250,10 @@
   /* ---- Export ---- */
   function exporter(type) {
     var schema = SCHEMAS[type];
-    var corps = etat[type].map(function (item) {
-      return serialiser(nettoyer(item), schema);
-    }).join(',\n');
-
-    var contenu = schema.entete + '\nwindow.' + schema.variable + ' = [\n' + corps + '\n];\n';
-    telecharger(schema.fichier, contenu);
-    toast('Fichier ' + schema.fichier + ' téléchargé. Envoyez-le dans assets/data/ chez votre hébergeur.');
-  }
-
-  function serialiser(item, schema) {
-    var lignes = [];
-    schema.champs.forEach(function (c) {
-      var v = item[c.cle];
-      if (v === undefined || v === '' || (Array.isArray(v) && !v.length)) { return; }
-      if (c.cle === 'visible' && v === true) { v = true; }
-      lignes.push('    ' + c.cle + ': ' + valeurJs(v));
-    });
-    return '  {\n' + lignes.join(',\n') + '\n  }';
-  }
-
-  function valeurJs(v) {
-    if (typeof v === 'number') { return String(v); }
-    if (typeof v === 'boolean') { return v ? 'true' : 'false'; }
-    if (Array.isArray(v)) {
-      return '[\n' + v.map(function (x) { return '      ' + chaineJs(x); }).join(',\n') + '\n    ]';
-    }
-    return chaineJs(v);
-  }
-
-  function chaineJs(s) {
-    return '"' + String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, ' ') + '"';
+    var enveloppe = {};
+    enveloppe[schema.cle] = etat[type].map(nettoyer);
+    telecharger(schema.fichier, JSON.stringify(enveloppe, null, 2) + '\n');
+    toast('Fichier ' + schema.fichier + ' téléchargé. Remplacez assets/data/' + schema.fichier + ' chez votre hébergeur.');
   }
 
   function nettoyer(item) {
@@ -306,13 +261,15 @@
     Object.keys(item).forEach(function (k) {
       var v = item[k];
       if (typeof v === 'string') { v = v.trim(); }
+      if (v === '' || v === undefined || v === null) { return; }
+      if (Array.isArray(v) && !v.length) { return; }
       copie[k] = v;
     });
     return copie;
   }
 
   function telecharger(nom, contenu) {
-    var blob = new Blob([contenu], { type: 'text/javascript;charset=utf-8' });
+    var blob = new Blob([contenu], { type: 'application/json;charset=utf-8' });
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
@@ -324,20 +281,51 @@
   }
 
   /* ---- Brouillon local ---- */
-  function charger() {
-    var initial = {
-      annonces: (window.ANNONCES || []).slice(),
-      offres: (window.OFFRES || []).slice()
-    };
+  function brouillon() {
     try {
       var brut = window.localStorage.getItem(CLE);
-      if (!brut) { return initial; }
+      if (!brut) { return null; }
       var sauvegarde = JSON.parse(brut);
       if (sauvegarde && sauvegarde.annonces && sauvegarde.offres) {
         return { annonces: sauvegarde.annonces, offres: sauvegarde.offres, date: sauvegarde.date };
       }
     } catch (e) {}
-    return initial;
+    return null;
+  }
+
+  function lireFichier(url, cle) {
+    return fetch(url, { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) { throw new Error(r.status); } return r.json(); })
+      .then(function (d) { return Array.isArray(d) ? d : (d && d[cle]) || []; });
+  }
+
+  /* Charge les fichiers publiés, sauf si un brouillon local plus récent existe.
+     Si les fichiers ne sont pas lisibles (page ouverte sans serveur web),
+     l'import manuel prend le relais. */
+  function initialiser() {
+    var local = brouillon();
+    if (local) {
+      etat = local;
+      demarrer();
+      return;
+    }
+    Promise.all([
+      lireFichier('assets/data/annonces.json', 'annonces'),
+      lireFichier('assets/data/offres.json', 'offres')
+    ]).then(function (res) {
+      etat = { annonces: res[0], offres: res[1] };
+      demarrer();
+    }, function () {
+      etat = { annonces: [], offres: [] };
+      demarrer();
+      var zone = document.querySelector('[data-import]');
+      if (zone) { zone.hidden = false; }
+    });
+  }
+
+  function demarrer() {
+    rendre('annonces');
+    rendre('offres');
   }
 
   function enregistrer() {
@@ -382,6 +370,29 @@
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  rendre('annonces');
-  rendre('offres');
+  /* ---- Import manuel (secours) ---- */
+  var importEl = document.querySelector('[data-import-input]');
+  if (importEl) {
+    importEl.addEventListener('change', function () {
+      var fichier = importEl.files && importEl.files[0];
+      if (!fichier) { return; }
+      var lecteur = new FileReader();
+      lecteur.onload = function () {
+        try {
+          var d = JSON.parse(lecteur.result);
+          var type = /offre/i.test(fichier.name) ? 'offres' : 'annonces';
+          etat[type] = Array.isArray(d) ? d : (d[type] || []);
+          selection[type] = 0;
+          enregistrer();
+          rendre(type);
+          toast(fichier.name + ' importé.');
+        } catch (e) {
+          window.alert('Ce fichier n’a pas pu être lu : ' + e.message);
+        }
+      };
+      lecteur.readAsText(fichier);
+    });
+  }
+
+  initialiser();
 })();

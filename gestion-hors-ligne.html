@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Espace de gestion &mdash; Office notarial de Combrit</title>
+<title>Gestion hors ligne &mdash; Office notarial de Combrit</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
   <div class="wrap admin-header__inner">
     <a class="brand" href="index.html">
       <strong>Office notarial de Combrit</strong>
-      <span>Espace de gestion</span>
+      <span>Gestion hors ligne</span>
     </a>
     <div style="display:flex;gap:.6rem;flex-wrap:wrap">
       <a class="btn btn--ghost btn--small" href="annonces.html" target="_blank" rel="noopener">Voir le site</a>
@@ -26,6 +26,21 @@
 </header>
 
 <main class="wrap" style="padding-block:2.5rem 5rem">
+
+  <div class="notice">
+    <strong>Cet outil fonctionne sans connexion.</strong>
+    Une fois le site h&eacute;berg&eacute;, pr&eacute;f&eacute;rez l&rsquo;interface en ligne&nbsp;:
+    <a href="admin/">gestion du site</a>. Elle enregistre et met en ligne directement,
+    sans manipulation de fichier. Cette page reste utile hors connexion, ou si l&rsquo;interface
+    en ligne est indisponible.
+  </div>
+
+  <div class="notice" data-import hidden>
+    <strong>Fichiers non lisibles.</strong>
+    Cette page a &eacute;t&eacute; ouverte sans serveur web&nbsp;: importez manuellement
+    <code>annonces.json</code> ou <code>offres.json</code> pour les modifier.
+    <p style="margin:.7rem 0 0"><input type="file" accept="application/json,.json" data-import-input></p>
+  </div>
 
   <div class="notice" data-draft hidden>
     <strong>Modifications non publi&eacute;es.</strong>
@@ -85,7 +100,7 @@
       <p>Cet espace sert &agrave; pr&eacute;parer le contenu du site sans &eacute;crire une ligne de code. Il fonctionne enti&egrave;rement dans votre navigateur&nbsp;: rien n&rsquo;est envoy&eacute; sur internet tant que vous ne publiez pas.</p>
       <ol class="steps">
         <li><strong>Saisir</strong>Ajoutez ou modifiez un bien, puis enregistrez. Vos modifications restent m&eacute;moris&eacute;es dans ce navigateur, m&ecirc;me si vous fermez l&rsquo;onglet.</li>
-        <li><strong>T&eacute;l&eacute;charger</strong>Cliquez sur &laquo;&nbsp;T&eacute;l&eacute;charger le fichier &agrave; publier&nbsp;&raquo;. Vous obtenez un fichier nomm&eacute; <code>annonces.js</code> (ou <code>offres.js</code>).</li>
+        <li><strong>T&eacute;l&eacute;charger</strong>Cliquez sur &laquo;&nbsp;T&eacute;l&eacute;charger le fichier &agrave; publier&nbsp;&raquo;. Vous obtenez un fichier nomm&eacute; <code>annonces.json</code> (ou <code>offres.json</code>).</li>
         <li><strong>Publier</strong>Envoyez ce fichier &agrave; votre h&eacute;bergeur, dans le dossier <code>assets/data/</code> du site, en rempla&ccedil;ant l&rsquo;ancien. Le site est &agrave; jour imm&eacute;diatement.</li>
       </ol>
 
@@ -96,14 +111,12 @@
       <p>Une annonce immobili&egrave;re doit indiquer le prix honoraires inclus et pr&eacute;ciser qui les supporte, afficher les classes DPE et GES du bien, et mentionner pour un lot de copropri&eacute;t&eacute; le nombre de lots, les charges pr&eacute;visionnelles annuelles et l&rsquo;existence &eacute;ventuelle d&rsquo;une proc&eacute;dure. Les champs correspondants sont pr&eacute;vus dans le formulaire&nbsp;: les renseigner suffit.</p>
 
       <h2 style="margin-top:2.5rem">Bon &agrave; savoir</h2>
-      <p>Cette page n&rsquo;est pas prot&eacute;g&eacute;e par un mot de passe et n&rsquo;en a pas besoin&nbsp;: elle ne peut rien modifier sur le site en ligne, elle se contente de fabriquer un fichier. Tant que ce fichier n&rsquo;est pas envoy&eacute; &agrave; l&rsquo;h&eacute;bergeur, le site public reste inchang&eacute;. Si vous souhaitez plus tard modifier le site directement depuis internet, sans manipulation de fichier, dites-le&nbsp;: cela suppose de passer par un h&eacute;bergement de type Netlify avec une interface d&rsquo;administration connect&eacute;e.</p>
+      <p>Cette page n&rsquo;est pas prot&eacute;g&eacute;e par un mot de passe et n&rsquo;en a pas besoin&nbsp;: elle ne peut rien modifier sur le site en ligne, elle se contente de fabriquer un fichier. L&rsquo;interface de gestion en ligne, elle, demande une connexion par courriel et mot de passe, et publie directement&nbsp;: c&rsquo;est celle &agrave; utiliser au quotidien.</p>
     </div>
   </div>
 
 </main>
 
-<script src="assets/data/annonces.js"></script>
-<script src="assets/data/offres.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/admin.js"></script>
 </body>

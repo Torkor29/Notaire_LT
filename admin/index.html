@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Gestion du site — Office notarial de Combrit</title>
+</head>
+<body>
+<!-- Interface d'administration (Decap CMS). Elle écrit directement dans le
+     dépôt Git du site : chaque enregistrement déclenche une nouvelle mise en
+     ligne. Voir DEPLOIEMENT.md pour l'activation des comptes. -->
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="https://unpkg.com/decap-cms@^3.8.0/dist/decap-cms.js"></script>
+<script>
+  // Redirige vers la page d'accueil après une invitation par courriel.
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', function (user) {
+      if (!user) {
+        window.netlifyIdentity.on('login', function () {
+          document.location.href = '/admin/';
+        });
+      }
+    });
+  }
+</script>
+</body>
+</html>

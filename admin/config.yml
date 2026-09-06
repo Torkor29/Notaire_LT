@@ -1,0 +1,91 @@
+# Configuration de l'interface de gestion (Decap CMS).
+#
+# backend git-gateway = hébergement Netlify avec Netlify Identity : Me Le Treut
+# se connecte par courriel et mot de passe, sans compte GitHub.
+#
+# Sur Cloudflare Pages ou tout autre hébergement Git, remplacer le bloc backend
+# ci-dessous par :
+#   backend:
+#     name: github
+#     repo: Torkor29/Notaire_LT
+#     branch: main
+# (la connexion se fait alors avec un compte GitHub autorisé sur le dépôt).
+
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create: 'Ajout : {{collection}} « {{slug}} »'
+    update: 'Modification : {{collection}} « {{slug}} »'
+    delete: 'Suppression : {{collection}} « {{slug}} »'
+    uploadMedia: 'Ajout de la photo {{path}}'
+    deleteMedia: 'Suppression de la photo {{path}}'
+
+locale: fr
+
+# À remplacer par le domaine définitif (lien « Voir le site » de l'interface).
+site_url: https://www.notaire-combrit.fr
+display_url: https://www.notaire-combrit.fr
+media_folder: assets/img
+public_folder: assets/img
+publish_mode: simple
+
+collections:
+  - name: annonces
+    label: Biens à vendre
+    label_singular: bien
+    files:
+      - name: liste
+        label: Biens à vendre
+        file: assets/data/annonces.json
+        format: json
+        fields:
+          - name: annonces
+            label: Biens
+            label_singular: bien
+            widget: list
+            summary: '{{fields.titre}} — {{fields.commune}} ({{fields.statut}})'
+            fields:
+              - { name: titre, label: Intitulé du bien, widget: string, hint: "Ex. : Maison de pêcheur, à deux pas du port" }
+              - { name: ref, label: Référence du mandat, widget: string, required: false }
+              - { name: commune, label: Commune, widget: string, default: Combrit Sainte-Marine }
+              - { name: type, label: Type de bien, widget: select, options: [Maison, Appartement, Terrain, Local, Autre], default: Maison }
+              - { name: statut, label: Statut, widget: select, options: [Disponible, Sous compromis, Vendu], default: Disponible }
+              - { name: prix, label: Prix en euros, widget: number, value_type: int, required: false, hint: "Sans espace ni symbole. Laisser vide pour « prix : nous consulter »." }
+              - { name: honoraires, label: Mention des honoraires, widget: string, default: "Honoraires de négociation inclus, à la charge de l'acquéreur : 4,5 % TTC du prix hors honoraires", hint: "Mention obligatoire : prix honoraires inclus et qui les supporte." }
+              - { name: surface, label: Surface habitable en m², widget: number, value_type: int, required: false }
+              - { name: terrain, label: Terrain en m², widget: number, value_type: int, required: false }
+              - { name: pieces, label: Nombre de pièces, widget: number, value_type: int, required: false }
+              - { name: chambres, label: Nombre de chambres, widget: number, value_type: int, required: false }
+              - { name: dpe, label: Classe DPE, widget: select, options: [A, B, C, D, E, F, G, NS], default: D, hint: "NS pour un bien non soumis au diagnostic, comme un terrain." }
+              - { name: ges, label: Classe GES, widget: select, options: [A, B, C, D, E, F, G, NS], default: B }
+              - { name: description, label: Description, widget: text, required: false }
+              - { name: copropriete, label: Mentions de copropriété, widget: text, required: false, hint: "Nombre de lots, charges annuelles prévisionnelles, procédure en cours. À laisser vide hors copropriété." }
+              - { name: photo, label: Photo, widget: image, required: false, hint: "Format paysage, 1200 px de large environ." }
+              - { name: date, label: Date de mise en ligne, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, picker_utc: true }
+              - { name: visible, label: Afficher ce bien sur le site, widget: boolean, default: true }
+
+  - name: offres
+    label: Offres d'emploi
+    label_singular: offre
+    files:
+      - name: liste
+        label: Offres d'emploi
+        file: assets/data/offres.json
+        format: json
+        fields:
+          - name: offres
+            label: Postes
+            label_singular: poste
+            widget: list
+            summary: '{{fields.titre}} — {{fields.contrat}}'
+            fields:
+              - { name: titre, label: Intitulé du poste, widget: string }
+              - { name: contrat, label: Contrat, widget: select, options: [CDI, CDD, Alternance, Stage, Autre], default: CDI }
+              - { name: lieu, label: Lieu, widget: string, default: Combrit Sainte-Marine }
+              - { name: temps, label: Temps de travail, widget: string, default: Temps plein, required: false }
+              - { name: date, label: Date de publication, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false, picker_utc: true }
+              - { name: resume, label: Présentation, widget: text, required: false }
+              - { name: missions, label: Missions, widget: list, field: { name: mission, label: Mission, widget: string }, required: false }
+              - { name: profil, label: Profil recherché, widget: text, required: false }
+              - { name: visible, label: Afficher cette offre sur le site, widget: boolean, default: true }
