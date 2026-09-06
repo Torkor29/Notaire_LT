@@ -110,6 +110,12 @@ fonctionne, mais :
       intracommunautaire, coordonnées de l'hébergeur. Les passages à compléter
       sont en italique dans `mentions-legales.html`.
 - [ ] Remplacer les cinq biens et les trois offres d'exemple par les vrais.
+- [ ] **Témoignages de la page d'accueil** : les trois avis sont des exemples.
+      Les remplacer par de vrais retours clients, avec accord écrit, ou
+      supprimer la section (repérée par un commentaire dans `index.html`).
+      Publier des avis inventés est une pratique commerciale trompeuse.
+- [ ] Vérifier les chiffres de la bande d'accueil (délai de réponse annoncé,
+      nombre d'interlocuteurs) : ce sont des engagements pris publiquement.
 - [ ] Ajuster le marqueur de la carte dans `contact.html` (`bbox` et `marker` de
       l'iframe OpenStreetMap) sur l'adresse exacte.
 - [ ] Remplacer le domaine d'exemple dans `sitemap.xml`, `robots.txt` et les

@@ -8,6 +8,11 @@
 > sobre et éditoriale (angles droits, filets fins, Newsreader et Inter). Seule
 > `assets/css/style.css` et l'appel des polices diffèrent : on peut basculer de
 > l'une à l'autre sans toucher au contenu ni à l'interface de gestion.
+>
+> La page d'accueil de cette branche est par ailleurs une véritable page de
+> présentation longue : douze sections (hero illustré, chiffres, engagements,
+> domaines, parcours, biens mis en avant, comparatif, témoignages, FAQ,
+> recrutement, appel final) avec apparition au défilement.
 
 Site vitrine statique : aucun serveur applicatif, aucune base de données, aucune
 dépendance à installer. Quatre pages publiques et une page de mentions légales.

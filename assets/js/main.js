@@ -101,13 +101,7 @@
       return a && a.visible !== false && a.titre;
     });
 
-    var rang = { 'Disponible': 0, 'Sous compromis': 1, 'Vendu': 2 };
-    biens.sort(function (a, b) {
-      var ra = rang[a.statut] === undefined ? 1 : rang[a.statut];
-      var rb = rang[b.statut] === undefined ? 1 : rang[b.statut];
-      if (ra !== rb) { return ra - rb; }
-      return String(b.date || '').localeCompare(String(a.date || ''));
-    });
+    biens.sort(trierBiens);
 
     var etat = { type: '', commune: '' };
     var countEl = document.querySelector('[data-count]');
@@ -222,6 +216,45 @@
     '</article>';
   }
 
+  /* ---- Biens mis en avant sur la page d'accueil ---- */
+  var accueilEl = document.getElementById('annonces-accueil');
+  if (accueilEl) {
+    chargerDonnees('assets/data/annonces.json', 'annonces').then(function (donnees) {
+      var limite = Number(accueilEl.getAttribute('data-limite')) || 3;
+      var biens = donnees
+        .filter(function (a) { return a && a.visible !== false && a.titre && a.statut !== 'Vendu'; })
+        .sort(trierBiens)
+        .slice(0, limite);
+      accueilEl.innerHTML = biens.length
+        ? biens.map(carteAnnonce).join('')
+        : '<div class="empty-state" style="grid-column:1/-1"><h3>Aucun bien disponible pour le moment</h3>' +
+          '<p>Faites-nous part de votre projet : nous vous préviendrons dès qu’un bien correspondant nous sera confié. ' +
+          '<a href="contact.html">Nous écrire</a>.</p></div>';
+    }, function () {
+      accueilEl.innerHTML = messageErreur('les biens à vendre');
+    });
+  }
+
+  /* ---- Apparition au défilement ---- */
+  var aReveler = document.querySelectorAll('.reveal');
+  if (aReveler.length) {
+    var anime = window.matchMedia('(prefers-reduced-motion: reduce)').matches === false
+      && 'IntersectionObserver' in window;
+
+    if (!anime) {
+      Array.prototype.forEach.call(aReveler, function (el) { el.classList.add('is-in'); });
+    } else {
+      var observateur = new IntersectionObserver(function (entrees) {
+        entrees.forEach(function (entree) {
+          if (!entree.isIntersecting) { return; }
+          entree.target.classList.add('is-in');
+          observateur.unobserve(entree.target);
+        });
+      }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+      Array.prototype.forEach.call(aReveler, function (el) { observateur.observe(el); });
+    }
+  }
+
   /* ---- Formulaire de contact (sans serveur : ouverture du client de messagerie) ---- */
   var form = document.querySelector('[data-contact-fallback]');
   if (form) {
@@ -247,6 +280,16 @@
         + '?subject=' + encodeURIComponent('Demande via le site — ' + get('objet'))
         + '&body=' + encodeURIComponent(corps);
     });
+  }
+
+  /* Disponibles d'abord, puis sous compromis, puis vendus ; à statut égal,
+     du plus récent au plus ancien. */
+  function trierBiens(a, b) {
+    var rang = { 'Disponible': 0, 'Sous compromis': 1, 'Vendu': 2 };
+    var ra = rang[a.statut] === undefined ? 1 : rang[a.statut];
+    var rb = rang[b.statut] === undefined ? 1 : rang[b.statut];
+    if (ra !== rb) { return ra - rb; }
+    return String(b.date || '').localeCompare(String(a.date || ''));
   }
 
   function chargerDonnees(url, cle) {
