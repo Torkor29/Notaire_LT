@@ -1,5 +1,14 @@
 # Site de l'office notarial de Combrit — Me Marine Le Treut
 
+> **Variante de style « douce ».** Cette branche propose la même structure et le
+> même contenu que la branche principale, avec une direction artistique
+> différente : formes arrondies, ombres légères, palette chaude (sauge, sable,
+> crème), typographies Fraunces et Plus Jakarta Sans, boutons et filtres en
+> pastilles. La branche `claude/notaire-combrit-website-1t789m` porte la version
+> sobre et éditoriale (angles droits, filets fins, Newsreader et Inter). Seule
+> `assets/css/style.css` et l'appel des polices diffèrent : on peut basculer de
+> l'une à l'autre sans toucher au contenu ni à l'interface de gestion.
+
 Site vitrine statique : aucun serveur applicatif, aucune base de données, aucune
 dépendance à installer. Quatre pages publiques et une page de mentions légales.
 
