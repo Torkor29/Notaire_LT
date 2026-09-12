@@ -6,6 +6,7 @@ import { Entete } from "@/components/Entete";
 import { PiedDePage } from "@/components/PiedDePage";
 import { BarreMobile } from "@/components/BarreMobile";
 import { MotionRoot } from "@/components/MotionRoot";
+import { ProgressionLecture } from "@/components/motion";
 import { TransitionPage } from "@/components/TransitionPage";
 import { RechercheProvider } from "@/components/RechercheProvider";
 
@@ -144,6 +145,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen antialiased">
         <RechercheProvider>
+          <ProgressionLecture />
           <Entete />
           <main id="contenu" tabIndex={-1}>
             <TransitionPage>{children}</TransitionPage>

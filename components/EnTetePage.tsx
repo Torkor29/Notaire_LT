@@ -41,7 +41,7 @@ export function EnTetePage({
             <Visuel
               variante={visuel}
               ratio="auto"
-              parallax={0.06}
+              profondeur={0.67}
               masque={false}
               arrondi={false}
               priority
@@ -100,7 +100,7 @@ export function EnTetePage({
               <Visuel
                 variante={visuel}
                 ratio="4 / 5"
-                parallax={0.09}
+                profondeur={1.0}
                 sizes="(max-width: 1024px) 100vw, 42vw"
               />
             </div>

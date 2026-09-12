@@ -160,7 +160,7 @@ export default async function PageArticle({
               <Visuel
                 variante={article.visuel}
                 ratio="4 / 3"
-                parallax={0.07}
+                profondeur={0.78}
                 priority
                 sizes="(max-width: 1024px) 100vw, 45vw"
               />

@@ -75,7 +75,7 @@ export function GalerieBien({
             src={principale.src}
             alt={principale.legende ?? titre}
             ratio="4 / 3"
-            parallax={false}
+            profondeur={false}
             masque={false}
             arrondi={false}
             priority
@@ -104,7 +104,7 @@ export function GalerieBien({
                   src={photo.src}
                   alt={photo.legende ?? titre}
                   ratio="4 / 3"
-                  parallax={false}
+                  profondeur={false}
                   masque={false}
                   arrondi={false}
                   className="h-full transition-transform duration-[1100ms] ease-soft group-hover:scale-[1.05]"
@@ -146,7 +146,7 @@ export function GalerieBien({
                 src={photos[index].src}
                 alt={photos[index].legende ?? titre}
                 ratio="3 / 2"
-                parallax={false}
+                profondeur={false}
                 masque={false}
                 sizes="100vw"
               />

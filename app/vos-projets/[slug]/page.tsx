@@ -232,7 +232,7 @@ export default async function PageProjet({
                     <Visuel
                       variante={projet.visuelSecondaire}
                       ratio="4 / 3"
-                      parallax={0.08}
+                      profondeur={0.89}
                       sizes="35vw"
                     />
                   </div>

@@ -416,10 +416,123 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Parallax : piloté par --parallax en JS (rAF) */
-[data-parallax] {
+/* Scènes illustrées : cinq plans décalés indépendamment au défilement */
+[data-scene] {
   will-change: transform;
-  transform: translate3d(0, var(--parallax, 0px), 0) scale(var(--parallax-zoom, 1.12));
+}
+
+[data-scene] [data-plan] {
+  transition: transform 60ms linear;
+  will-change: transform;
+}
+
+/* Barre de progression de lecture */
+#progression-lecture {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 70;
+  height: 2px;
+  pointer-events: none;
+}
+
+#progression-lecture > span {
+  display: block;
+  height: 100%;
+  transform-origin: left center;
+  transform: scaleX(var(--progression, 0));
+  background: linear-gradient(
+    90deg,
+    var(--color-vert) 0%,
+    var(--color-champagne) 100%
+  );
+}
+
+/* Boutons magnétiques */
+[data-magnetique] {
+  transform: translate3d(var(--aimant-x, 0), var(--aimant-y, 0), 0);
+  transition: transform 600ms var(--ease-soft);
+}
+
+[data-magnetique]:active {
+  transition-duration: 100ms;
+}
+
+/* Bandeau de mots défilants */
+@keyframes defilement {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.defilant {
+  display: flex;
+  width: max-content;
+  animation: defilement var(--duree-defilement, 42s) linear infinite;
+}
+
+.defilant-conteneur:hover .defilant {
+  animation-play-state: paused;
+}
+
+/* Révélation mot à mot */
+.mot-revele {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(6px);
+  transform: translate3d(0, 0.5em, 0);
+  transition:
+    opacity 900ms var(--ease-soft) var(--mot-delai, 0ms),
+    filter 900ms var(--ease-soft) var(--mot-delai, 0ms),
+    transform 900ms var(--ease-soft) var(--mot-delai, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.est-visible .mot-revele {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* Compteur de section, très gros, en fond */
+.chiffre-fantome {
+  font-family: var(--font-display);
+  font-size: clamp(7rem, 22vw, 20rem);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: color-mix(in oklab, var(--color-pierre) 55%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Carte qui se soulève */
+.carte-relief {
+  transition:
+    transform 700ms var(--ease-soft),
+    box-shadow 700ms var(--ease-soft),
+    border-color 700ms var(--ease-soft);
+}
+
+.carte-relief:hover {
+  transform: translate3d(0, -6px, 0);
+  box-shadow: var(--shadow-relief);
+}
+
+/* Soulignement animé */
+.lien-souligne {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 600ms var(--ease-soft);
+}
+
+.groupe-lien:hover .lien-souligne,
+.lien-souligne:hover {
+  background-size: 100% 1px;
 }
 
 /* --------------------------------------------------------------------------
@@ -644,7 +757,18 @@
     transform: none !important;
   }
 
-  [data-parallax] {
+  [data-scene] [data-plan],
+  [data-magnetique] {
+    transform: none !important;
+  }
+
+  .defilant {
+    animation: none !important;
+  }
+
+  .mot-revele {
+    opacity: 1 !important;
+    filter: none !important;
     transform: none !important;
   }
 }

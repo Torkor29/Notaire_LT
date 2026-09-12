@@ -36,7 +36,7 @@ export function CarteProjetVisuelle({
           <Visuel
             variante={visuel}
             ratio="5 / 4"
-            parallax={false}
+            profondeur={false}
             masque={false}
             arrondi={false}
             className="transition-transform duration-[1100ms] ease-soft group-hover:scale-[1.045]"
@@ -96,7 +96,7 @@ export function CarteArticle({
             <Visuel
               variante={article.visuel}
               ratio="16 / 10"
-              parallax={false}
+              profondeur={false}
               masque={false}
               arrondi={false}
               className="transition-transform duration-[1100ms] ease-soft group-hover:scale-[1.045]"

@@ -91,7 +91,7 @@ function CarteBien({
             src={photo?.src}
             alt={bien.titre}
             ratio="4 / 3"
-            parallax={false}
+            profondeur={false}
             masque={false}
             arrondi={false}
             className="transition-transform duration-[1100ms] ease-soft group-hover:scale-[1.05]"

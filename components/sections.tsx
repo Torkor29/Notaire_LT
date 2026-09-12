@@ -153,7 +153,7 @@ export function BandeauContact({
         <Visuel
           variante={visuel}
           ratio="auto"
-          parallax={0.06}
+          profondeur={0.67}
           masque={false}
           arrondi={false}
           className="h-full w-full"

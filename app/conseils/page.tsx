@@ -70,7 +70,7 @@ export default async function PageConseils() {
                   <Visuel
                     variante={une.visuel}
                     ratio="16 / 10"
-                    parallax={false}
+                    profondeur={false}
                     masque={false}
                     arrondi={false}
                     className="transition-transform duration-[1200ms] ease-soft group-hover:scale-[1.04]"

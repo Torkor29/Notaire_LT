@@ -82,7 +82,7 @@ export default function PageEtude() {
               <Visuel
                 variante="portrait"
                 ratio="3 / 4"
-                parallax={0.08}
+                profondeur={0.89}
                 legende="Emplacement réservé au portrait professionnel de Maître Marine Le Treut."
                 sizes="(max-width: 1024px) 100vw, 45vw"
               />
